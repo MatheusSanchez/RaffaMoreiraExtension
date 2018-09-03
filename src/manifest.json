@@ -5,7 +5,8 @@
 	"version": "1.0",
 
 	"web_accessible_resources":[
-		"777/*.jpg"
+		"777/*.jpg",
+		"audios/*.mp3"
 	],
 
 	"content_scripts": [
@@ -16,7 +17,7 @@
 				"<all_urls>"
 			],
 
-			"js": ["content.js"]
+			"js": ["jquery.min.js","content.js"]
 
 		}
 
