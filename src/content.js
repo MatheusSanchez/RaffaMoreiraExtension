@@ -32,14 +32,24 @@ for (ele of all_imgs) { // para todas imagens do site
 
 */
 
+/*
+
 function maisAlto(myAudio){ // uma função pro range não estourar [0,1]	
-	if(myAudio.volume < 1){
-		myAudio.volume += 0.1;
+
+	if(myAudio.volume + maisAud  < 1){ // por algum motivo bizarro do navegador
+										// ele soma alguns centésimos em cada soma entao myAudio.volume + maisAud
+										// resolve o problema
+		myAudio.volume += maisAud;
 		console.log(myAudio.volume);
+
+	}else{
+		myAudio.volume = 1;
 	}	
 }
 
-$(document).ready(function(){
+
+	var maisAud = 0.1; // icremento do audio
+
 
 	var myAudio = document.createElement("AUDIO"); // inserindo um audio no html
 	//myAudio.setAttribute("controls", "controls"); 
@@ -53,10 +63,8 @@ $(document).ready(function(){
 	myAudio.volume = 0.1;
 	myAudio.play();
 
-
-   $("*").click(function(){ // todo elemento (é lento procurar outro modo) // pegando mais de um elemento, isso faz 
-   																			//	com que o range [0,1] estoure, concertar
-
+   $(document).click(function(){ 
+   																			
 
     	if(myAudio.paused){ // se o audio ta pausado 
     		console.log("Audio Tocando");
@@ -65,8 +73,31 @@ $(document).ready(function(){
     	}else{
     		console.log("Audio Pausado");
     		myAudio.pause(); // pause
-    	} 	
+    	}
+    	//return false; 	
 
     });
+*/
 
-});	
+
+chrome.runtime.sendMessage(function(response) {
+  console.log(`message from background: ${JSON.stringify(response)}`);
+});
+
+
+
+chrome.runtime.onMessage.addListener(gotMessage);
+function gotMessage(msg,sender,sendResponse){
+	console.log(msg.txt);
+}	
+
+function callback(tab){
+		let msg = {
+			txt: "Hi Mano"
+		}
+		chrome.tabs.sendMessage(tab.id,msg);		
+}
+$(document).click(function(){ 
+	
+});
+
