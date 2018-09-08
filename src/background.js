@@ -18,6 +18,11 @@ function gotMessage(msg, sender, sendResponse){
     		console.log("Audio Content Pausado");
     		audioContent.pause(); // pause
     	}	
+	}else if(msg.txt == "play"){
+		if(audioContent.paused){ // se o audio ta pausado 
+    		console.log("Audio Content Tocando");
+    		maisAlto(audioContent); // aumenta o som e da play
+    	}
 	}
 
 }
@@ -30,8 +35,8 @@ function gotMessage(msg, sender, sendResponse){
 chrome.browserAction.onClicked.addListener(browserEvents); // listener do click icon do browser
 chrome.tabs.onCreated.addListener(browserEvents); // listener abrir nova aba
 chrome.tabs.onRemoved.addListener(browserEvents);	// listener fechar aba
-chrome.tabs.onUpdated.addListener(browserEvents); // listener atualizar url
 chrome.tabs.onActivated.addListener(browserEvents); // listener troca de aba
+chrome.tabs.onUpdated.addListener(browserEvents); // listener atualizar url
 
 var audioBack = document.createElement("AUDIO"); // inserindo um audio no html
 audioBack.volume = 0.01;
@@ -60,7 +65,7 @@ function browserEvents(){
 
 // uma função pro range não estourar [0,1]	
 /********************************/
-var aumenta = 0.01;
+var aumenta = 0.1;
 function maisAlto(myAudio){ 
 	
 	if(myAudio.volume + aumenta  < 1){ // por algum motivo bizarro do navegador
@@ -73,3 +78,23 @@ function maisAlto(myAudio){
 
 	myAudio.play(); // play
 }
+
+//
+
+
+/*
+function troca(tab){ 
+	browserEvents();
+	let msg = {
+		txt: "troca"
+	}
+
+	chrome.tabs.getSelected(null, function(tab) { // pega o id da tab atual
+	    var tab = tab.id;
+    });
+		
+	setInterval(function(){
+     	chrome.tabs.sendMessage(tab,msg); // a cada 10 sec troca as img
+ 	}, 10000);
+}
+*/
